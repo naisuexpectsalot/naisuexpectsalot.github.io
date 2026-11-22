@@ -3,20 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mi página</title>
+  <title>naisutwt</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
+    * { box-sizing: border-box; }
     body {
-      background: #1b2838;
-      color: #c7d5e0;
-      font-family: sans-serif;
-      max-width: 600px;
-      margin: 40px auto;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #3a0508 0%, #0a0001 70%);
+      color: #ff4d55;
+      font-family: "Trebuchet MS", sans-serif;
+    }
+    .card {
+      width: 90%;
+      max-width: 480px;
+      padding: 40px 24px;
       text-align: center;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(20,0,2,0.8), rgba(90,0,8,0.35));
+      box-shadow: 0 0 40px rgba(255, 0, 30, 0.15);
+    }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ff4d55;
+      box-shadow: 0 0 20px rgba(255, 77, 85, 0.5);
+    }
+    h1 {
+      margin: 16px 0 8px;
+      font-size: 2rem;
+      text-shadow: 0 0 12px #ff1a2b, 0 0 24px #ff1a2b;
+    }
+    .quote {
+      margin: 0 0 28px;
+      opacity: 0.85;
+      font-style: italic;
+    }
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+    }
+    .socials a {
+      color: #ff4d55;
+      font-size: 2rem;
+      text-shadow: 0 0 10px rgba(255, 26, 43, 0.7);
+      transition: transform 0.2s, color 0.2s;
+    }
+    .socials a:hover {
+      transform: scale(1.2);
+      color: #fff;
     }
   </style>
 </head>
 <body>
-  <h1>Hola, mundo</h1>
-  <p>Esta es mi página en GitHub Pages.</p>
+  <div class="card">
+    <img class="avatar" src="avatar.png" alt="Foto de naisutwt">
+    <h1>naisutwt</h1>
+    <p class="quote">"Silent snow in the dark surrounding what's left of me."</p>
+    <div class="socials">
+      <a href="https://tiktok.com/@TU_USUARIO" target="_blank" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      <a href="https://instagram.com/TU_USUARIO" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://x.com/TU_USUARIO" target="_blank" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+    </div>
+  </div>
 </body>
 </html>
