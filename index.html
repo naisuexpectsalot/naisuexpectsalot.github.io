@@ -234,7 +234,7 @@
   // toca al conejito: glitch y cambia lo que dice el globo
   (function () {
     var av = document.getElementById('av'), bubble = document.getElementById('bubble');
-    var lines = [':3', '-w-', '.w.'], i = -1;
+    var lines = [':3', '-w-', '.w.', ':]'], i = -1;
     document.getElementById('patch').addEventListener('click', function () {
       av.style.animation = 'none'; void av.offsetWidth; av.style.animation = '';
       i = (i + 1) % lines.length;
