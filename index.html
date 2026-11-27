@@ -1,1 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nai</title>
+<link rel="icon" href="avatar.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #000;
+    --plush: #2b2545;
+    --maroon: #6e1642;
+    --pink: #ee1d7c;
+    --mint: #8ed9b0;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: #0a0712;
+    color: var(--mint);
+    font-family: "Gaegu", "Comic Sans MS", cursive;
+    font-size: 1.35rem;
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 1.25rem 3rem;
+  }
+  main { position: relative; z-index: 1; width: 100%; max-width: 26rem; text-align: center; }
 
+  /* fondo: penumbra morada + líneas de escaneo + cruces rosas que suben flotando */
+  .bg {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+    background:
+      radial-gradient(ellipse at 50% 28%, #2b2545 0%, #181330 45%, #0a0712 80%);
+  }
+  .bg::before { /* líneas de escaneo que se desplazan despacio */
+    content: ""; position: absolute; inset: -4px 0;
+    background: repeating-linear-gradient(to bottom, rgba(0,0,0,.28) 0 2px, transparent 2px 5px);
+    animation: scan 6s linear infinite;
+  }
+  .bg::after { /* franja glitch que cruza de vez en cuando */
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 14vh;
+    background: linear-gradient(to bottom, transparent, rgba(238,29,124,.13) 40%, rgba(142,217,176,.12) 60%, transparent);
+    mix-blend-mode: screen; opacity: 0;
+    animation: sweep 11s steps(24) infinite;
+  }
+  @keyframes scan  { to { transform: translateY(5px); } }
+  @keyframes sweep {
+    0%, 70% { opacity: 0; transform: translateY(-20vh); }
+    72%     { opacity: 1; }
+    92%     { opacity: 1; transform: translateY(105vh); }
+    100%    { opacity: 0; transform: translateY(105vh); }
+  }
+  .x {
+    position: absolute; top: 0; left: 0; opacity: .4;
+    background:
+      linear-gradient(var(--c), var(--c)) center / 100% 34% no-repeat,
+      linear-gradient(var(--c), var(--c)) center / 34% 100% no-repeat;
+    animation: drift var(--d) linear infinite;
+    animation-delay: var(--delay);
+    will-change: transform;
+  }
+  @keyframes drift {
+    from { transform: translate(0, 112vh) rotate(0deg); }
+    to   { transform: translate(var(--sway), -20vh) rotate(var(--r)); }
+  }
+
+  .avatar-wrap { width: 11rem; margin: 0 auto 0.5rem; }
+  .avatar {
+    display: block; width: 100%; height: auto;
+    animation: glitch 0.7s steps(1) 1;
+  }
+  .avatar:hover { animation: glitch 0.5s steps(1) 1; }
+  @keyframes glitch {
+    0%   { transform: translate(0); filter: none; }
+    12%  { transform: translate(-6px, 1px); filter: drop-shadow(8px 0 var(--pink)) drop-shadow(-8px 0 var(--mint)); clip-path: inset(10% 0 55% 0); }
+    24%  { transform: translate(7px, -2px); filter: drop-shadow(-8px 0 var(--pink)) drop-shadow(8px 0 var(--mint)); clip-path: inset(55% 0 8% 0); }
+    38%  { transform: translate(-3px, 0); filter: drop-shadow(5px 0 var(--pink)); clip-path: inset(0); }
+    52%  { transform: translate(4px, 1px); filter: drop-shadow(-5px 0 var(--mint)); clip-path: inset(30% 0 30% 0); }
+    66%  { transform: translate(0); filter: none; clip-path: inset(0); }
+    100% { transform: translate(0); filter: none; clip-path: inset(0); }
+  }
+
+  h1 {
+    margin: 0.25rem 0 0;
+    font-size: 3.6rem; line-height: 1; font-weight: 700;
+    letter-spacing: 0.04em; color: var(--mint);
+  }
+  .sub { margin: 0.35rem 0 2rem; color: var(--pink); font-size: 1.5rem; transform: rotate(-2deg); }
+
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+  a.link {
+    display: flex; align-items: center; gap: 0.9rem;
+    padding: 0.85rem 1.1rem;
+    background: var(--plush);
+    border: 3px dashed var(--maroon);
+    border-radius: 1.1rem;
+    color: var(--mint); text-decoration: none;
+    font-size: 1.5rem; font-weight: 700; text-align: left;
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .ic { flex: none; width: 1.8rem; height: 1.8rem; color: var(--pink); }
+  li:nth-child(even) .ic { color: var(--mint); }
+  .ic { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  a.link:hover .ic, a.link:focus-visible .ic { color: #1a0510; }
+  a.link { transform: rotate(var(--tilt, 0deg)); }
+  li:nth-child(odd)  { --tilt: -1.4deg; margin-right: .6rem; }
+  li:nth-child(even) { --tilt: 1.2deg;  margin-left: .6rem; }
+  a.link span { margin-left: auto; font-weight: 400; font-size: 1.15rem; opacity: 0.75; }
+  a.link:hover, a.link:focus-visible { background: var(--pink); color: #1a0510; transform: rotate(0deg) scale(1.04); }
+  a.link:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .avatar, .avatar:hover { animation: none; }
+    .bg::before, .bg::after, .x { animation: none; }
+    .x { transform: translate(0, 40vh); }
+    a.link { transition: none; }
+  }
+
+  body { overflow-x: hidden; }
+  .hero { position: relative; width: 11rem; margin: 0 auto 1rem; }
+  .patch {
+    display: block; width: 100%; aspect-ratio: 1; padding: 0; cursor: pointer;
+    background: #000; border: 4px dashed var(--pink); border-radius: 50%;
+    outline: 5px solid #000; box-shadow: 0 0 0 8px var(--maroon), 0 0 38px rgba(238,29,124,.35);
+    overflow: hidden; transform: rotate(-5deg);
+    transition: transform .2s;
+  }
+  .patch:hover { transform: rotate(3deg) scale(1.04); }
+  .patch:focus-visible { outline: 5px solid var(--mint); }
+  .patch .avatar { width: 100%; height: 100%; object-fit: cover; object-position: 45% 25%; }
+  .bubble {
+    position: absolute; left: 76%; top: -.9rem; margin: 0; white-space: nowrap;
+    padding: .05rem .8rem .15rem; background: #000; color: var(--mint);
+    border: 2.5px solid var(--pink); border-radius: 1rem; font-size: 1.25rem;
+    transform: rotate(4deg); pointer-events: none;
+  }
+  .bubble::after {
+    content: ""; position: absolute; left: .7rem; bottom: -.5rem; width: .7rem; height: .7rem;
+    background: #000; border-right: 2.5px solid var(--pink); border-bottom: 2.5px solid var(--pink);
+    transform: rotate(45deg);
+  }
+  h1 { text-shadow: 3px 2px 0 var(--maroon), -2px 0 0 rgba(238,29,124,.5); }
+  h1::after {
+    content: ""; display: block; height: 10px; width: 6.5rem; margin: .45rem auto 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='10' viewBox='0 0 28 10'%3E%3Cpath d='M0 5 Q7 0 14 5 T28 5' fill='none' stroke='%23ee1d7c' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x center / 28px 10px;
+  }
+  body.corrupt .bg { filter: hue-rotate(70deg) saturate(2.4) contrast(1.2); }
+  body.corrupt main { animation: jitter .09s steps(2) 12; }
+  @keyframes jitter { 0% { transform: translate(-3px, 1px); } 100% { transform: translate(3px, -1px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .patch, .patch:hover { transition: none; }
+    body.corrupt main { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="bg" id="bg" aria-hidden="true"></div>
+<main>
+  <!-- EDITA: tu nombre y frase -->
+  <div class="hero">
+    <button class="patch" id="patch" type="button" aria-label="Tocar al conejito"><img class="avatar" id="av" src="avatar.png" alt="Conejito de peluche oscuro con una cruz rosa en la frente"></button>
+    <p class="bubble" id="bubble" aria-live="polite">...</p>
+  </div>
+  <h1>Nai</h1>
+  <p class="sub" id="status">shadow bunny plush</p>
+
+  <!-- EDITA: cambia cada href="#" por tu enlace y el nombre de usuario -->
+  <ul>
+    <li><a class="link" href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3v10.5a4.5 4.5 0 1 1-4.5-4.5"/><path d="M15 3c.4 2.6 2.1 4.2 5 4.5"/></svg>TikTok <span>@usuario</span></a></li>
+    <li><a class="link" href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram <span>@usuario</span></a></li>
+    <li><a class="link" href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16"/><path d="M20 4l-6.5 6.5"/><path d="M10.5 13.5L4 20"/></svg>X <span>@usuario</span></a></li>
+    <li><a class="link" href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></svg>YouTube <span>@usuario</span></a></li>
+  </ul>
+</main>
+<script>
+  // cruces flotando (cambia 18 por más o menos)
+  (function () {
+    var bg = document.getElementById('bg');
+    var colors = ['#ee1d7c', '#ee1d7c', '#6e1642', '#6e1642', '#8ed9b0'];
+    for (var i = 0; i < 18; i++) {
+      var x = document.createElement('span');
+      var size = 14 + Math.random() * 26;
+      x.className = 'x';
+      x.style.cssText =
+        'left:' + (Math.random() * 100) + 'vw;' +
+        'width:' + size + 'px;height:' + size + 'px;' +
+        '--c:' + colors[Math.floor(Math.random() * colors.length)] + ';' +
+        '--d:' + (22 + Math.random() * 28) + 's;' +
+        '--delay:-' + (Math.random() * 40) + 's;' +
+        '--sway:' + (Math.random() * 120 - 60) + 'px;' +
+        '--r:' + (Math.random() * 360 - 180) + 'deg;';
+      bg.appendChild(x);
+    }
+  })();
+
+  // toca al conejito: cambia lo que dice; a la 5.ª vez se corrompe un momento
+  (function () {
+    var av = document.getElementById('av'), bubble = document.getElementById('bubble');
+    var lines = ['...', 'hola', '¿entity?', 'pat pat', 'no mires'], i = 0, n = 0;
+    new Image().src = 'entity.png';
+    document.getElementById('patch').addEventListener('click', function () {
+      n++;
+      av.style.animation = 'none'; void av.offsetWidth; av.style.animation = '';
+      if (n % 5 === 0) {
+        bubble.textContent = 'ENTITY';
+        av.src = 'entity.png';
+        document.body.classList.add('corrupt');
+        setTimeout(function () { av.src = 'avatar.png'; document.body.classList.remove('corrupt'); }, 1300);
+      } else {
+        i = (i + 1) % lines.length;
+        bubble.textContent = lines[i];
+      }
+    });
+  })();
+
+  // estado de Discord (vía Lanyard): si no hay estado, queda el texto de siempre
+  (function () {
+    var el = document.getElementById('status');
+    var DISCORD_ID = '982341209198563368';
+    var fallback = el.textContent;
+    function update() {
+      fetch('https://api.lanyard.rest/v1/users/' + DISCORD_ID)
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          var text = fallback;
+          if (j && j.success && j.data && j.data.activities) {
+            var c = j.data.activities.filter(function (a) { return a.type === 4; })[0];
+            if (c) {
+              var t = (c.state || '').trim();
+              var e = c.emoji && !c.emoji.id && c.emoji.name ? c.emoji.name + ' ' : '';
+              if (t || e) text = (e + t).slice(0, 80);
+            }
+          }
+          el.textContent = text;
+        })
+        .catch(function () { el.textContent = fallback; });
+    }
+    update();
+    setInterval(update, 30000);
+  })();
+</script>
+</body>
+</html>
